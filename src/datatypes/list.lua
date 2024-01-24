@@ -70,7 +70,7 @@ this.List.new = function(fromTable)
 
         if deep then
             local current = list.front
-            local next = current.next
+            local next = nil
 
             while current do
                 next = current.next
