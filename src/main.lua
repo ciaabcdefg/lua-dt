@@ -1,4 +1,6 @@
 local list = require("src.datatypes.list")
-local myList1 = list.List.new({5, 4, 2, 1, 10, 2})
+local myList = list.List.new({"Mark", "John", "James", "David"})
 
-print(table.unpack(myList1.getNodeRange(2, 6)))
+print(myList.getNode(2))
+print(myList.getNode(-2))
+print(myList.getNode(-4))

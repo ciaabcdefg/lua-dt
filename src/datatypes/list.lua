@@ -29,7 +29,7 @@ local function find(list, value)
         end
     end
 
-    return -1, nil
+    return nil, nil
 end
 
 local function get(list, index)
