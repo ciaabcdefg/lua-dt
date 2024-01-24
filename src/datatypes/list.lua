@@ -77,6 +77,30 @@ this.List.new = function(fromTable)
     list.size = 0
     setmetatable(list, this.List)
 
+    list.clear = function(deep)
+        if deep == nil then
+            deep = true
+        end
+
+        if deep then
+            local current = list.front
+            local next = current.next
+
+            while current do
+                next = current.next
+
+                current.next = nil
+                current.previous = nil
+                
+                current = next
+            end    
+        end
+
+        list.front = nil
+        list.back = nil
+        list.size = 0   
+    end
+
     list.pushBack = function(value)
         local node = this.Node.new(value)
 
@@ -96,17 +120,35 @@ this.List.new = function(fromTable)
     list.popBack = function()
         if list.size == 0 then return end
         
+        local value = list.back.value
+
         list.size = list.size - 1
-        list.back.previous.next = nil
+
+        if list.back then
+            if list.back.previous then
+                list.back.previous.next = nil
+                list.back = list.back.previous
+            end
+        end
         
-        return list.back.value
+        return value
     end
-    
-    list.clear = function(deep)
-        deep = deep or true
-        list.front = nil
-        list.back = nil
-        list.size = 0
+
+    list.popFront = function()
+        if list.size == 0 then return end
+        
+        local value = list.front.value
+
+        list.size = list.size - 1
+
+        if list.front then
+            if list.front.next then
+                list.front.next.previous = nil
+                list.front = list.front.next
+            end
+        end
+        
+        return value
     end
 
     list.pushFront = function(value)
