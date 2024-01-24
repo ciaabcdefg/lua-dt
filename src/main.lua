@@ -1,6 +1,11 @@
 local list = require("src.datatypes.list")
-local myList = list.List.new({"Mark", "John", "James", "David"})
+local myList = list.List.new({"One", 2, "Three", 4, "Five"})
 
-print(myList.getNode(2))
-print(myList.getNode(-2))
-print(myList.getNode(-4))
+myList.remove(1)
+print(myList)
+
+myList.remove(2)
+print(myList)
+
+myList.remove(3)
+print(myList)

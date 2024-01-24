@@ -202,30 +202,15 @@ this.List.new = function(fromTable)
         return node
     end
 
-    list.replaceAll = function(replaceWith, predicate)
-        if not predicate then
-            predicate = function(value)
-                return true
-            end
-        end
-        if type(predicate) ~= "function" then
-            predicate = function(value)
-                return value == predicate
-            end
-        end
-        
-        for _, current in pairs(list) do
-            if predicate(current.value) then
-                current.value = replaceWith
-            end
-        end
-    end
-
     list.getRange = function(indexStart, indexEnd)
         local newList = this.List.new()
 
         local startNode = list.getNode(indexStart)
         local endNode = list.getNode(indexEnd)
+        
+        if startNode == nil then 
+            return nil
+        end
         
         if endNode == nil then
             indexEnd = list.size
@@ -252,6 +237,25 @@ this.List.new = function(fromTable)
         return nodes
     end
 
+    list.replaceAll = function(replaceWith, predicate)
+        if not predicate then
+            predicate = function(value)
+                return true
+            end
+        end
+        if type(predicate) ~= "function" then
+            predicate = function(value)
+                return value == predicate
+            end
+        end
+        
+        for _, current in pairs(list) do
+            if predicate(current.value) then
+                current.value = replaceWith
+            end
+        end
+    end
+
     list.set = function(index, value)
         local node = list.getNode(index)
         if not node then return end
@@ -275,6 +279,8 @@ this.List.new = function(fromTable)
         if node.next then
             node.next.previous = node.previous
         end
+
+        list.size = list.size - 1
 
         return node.value
     end
