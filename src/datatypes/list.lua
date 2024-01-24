@@ -23,16 +23,10 @@ this.Node.__tostring = function(node)
 end
 
 local function find(list, value)
-    local current = list.front
-
-    for i = 1, list.size do
-        if not current then break end
-
+    for i, current in pairs(list) do
         if current.value == value then
             return i, current
         end
-        
-        current = current.next
     end
 
     return -1, nil
@@ -44,29 +38,21 @@ local function get(list, index)
         index = list.size + (index + 1)
     end
 
-    local current = list.front
-
-    for i = 1, index do
-        if not current then return nil, nil end
-
+    for i, current in pairs(list) do
         if i == index then
             return current.value, current
         end
-
-        current = current.next;
     end
 end
 
 this.List.toTable = function(list)
     local t = {}
-    local current = list.front
 
-    for _ = 1, list.size do
-        if not current then break end
+    for _, current in pairs(list) do
         table.insert(t, current.value)
         current = current.next
     end
-    
+
     return t
 end
 
@@ -236,34 +222,31 @@ this.List.new = function(fromTable)
     end
 
     list.getRange = function(indexStart, indexEnd)
-        local values = {}
-        local current = list.front
-        
-        for i = 1, list.size do
-            if i > indexEnd then break end
-            if not current then break end
+        local newList = this.List.new()
 
-            if i >= indexStart then
-                table.insert(values, current.value)
-            end
-            current = current.next
+        local startNode = list.getNode(indexStart)
+        local endNode = list.getNode(indexEnd)
+        
+        if endNode == nil then
+            indexEnd = list.size
+            endNode = list.back
         end
 
-        return values
+        newList.front = startNode
+        newList.endNode = endNode
+        newList.size = indexEnd - indexStart + 1
+
+        return newList
     end
 
     list.getNodeRange = function(indexStart, indexEnd)
         local nodes = {}
-        local current = list.front
-        
-        for i = 1, list.size do
-            if i > indexEnd then break end
-            if not current then break end
 
+        for i, current in pairs(list) do
+            if i > indexEnd then break end
             if i >= indexStart then
                 table.insert(nodes, current)
             end
-            current = current.next
         end
 
         return nodes
@@ -340,19 +323,15 @@ this.List.__concat = function(list1, list2)
 end
 
 this.List.__tostring = function(list)
-    local current = list.front
     local str = "["
 
-    for _ = 1, list.size do
-        if not current then break end
-
+    for i, current in pairs(list) do
         local terminator = ", "
-        if not current.next then
+        if i >= list.size then
             terminator = ""
         end
 
         str = str .. (tostring(current.value) or "nil") .. terminator
-        current = current.next;
     end
 
     str = str .. "]"
