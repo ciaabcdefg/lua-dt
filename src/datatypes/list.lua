@@ -128,23 +128,8 @@ this.List.new = function(fromTable)
             if list.back.previous then
                 list.back.previous.next = nil
                 list.back = list.back.previous
-            end
-        end
-        
-        return value
-    end
-
-    list.popFront = function()
-        if list.size == 0 then return end
-        
-        local value = list.front.value
-
-        list.size = list.size - 1
-
-        if list.front then
-            if list.front.next then
-                list.front.next.previous = nil
-                list.front = list.front.next
+            else
+                list.back = nil
             end
         end
         
@@ -165,6 +150,26 @@ this.List.new = function(fromTable)
         node.next = list.front
         list.size = list.size + 1
         list.front = node
+    end
+
+    
+    list.popFront = function()
+        if list.size == 0 then return end
+        
+        local value = list.front.value
+
+        list.size = list.size - 1
+
+        if list.front then
+            if list.front.next then
+                list.front.next.previous = nil
+                list.front = list.front.next
+            else
+                list.front = nil
+            end
+        end
+        
+        return value
     end
 
     list.concat = function(other, clean)
@@ -211,6 +216,28 @@ this.List.new = function(fromTable)
         return node
     end
 
+    list.replaceAll = function(replaceWith, predicate)
+        if not predicate then
+            predicate = function(value)
+                return true
+            end
+        end
+        if type(predicate) ~= "function" then
+            predicate = function(value)
+                return value == predicate
+            end
+        end
+        
+        local current = list.front
+        for i = 1, list.size do
+            if not current then break end
+            if predicate(current.value) then
+                current.value = replaceWith
+            end
+            current = current.next
+        end
+    end
+
     list.getRange = function(indexStart, indexEnd)
         local values = {}
         local current = list.front
@@ -250,6 +277,26 @@ this.List.new = function(fromTable)
         if not node then return end
 
         node.value = value
+    end
+
+    list.remove = function(index)
+        if index == 1 then
+            return list.popFront()
+        elseif index == list.size and index > 1 then
+            return list.popBack()
+        end
+
+        local node = list.getNode(index)
+        if node == nil then return end
+
+        if node.previous then
+            node.previous.next = node.next
+        end
+        if node.next then
+            node.next.previous = node.previous
+        end
+
+        return node.value
     end
 
     list.splice = function(other, index, clean)
