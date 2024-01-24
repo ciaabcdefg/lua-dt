@@ -380,9 +380,21 @@ end
 this.List.__call = function(list, index, indexEnd)
     if indexEnd == nil then
         return list.get(index)
-    else
-        return list.getRange(index, indexEnd)
     end
+    return list.getRange(index, indexEnd)
+end
+
+this.List.sort = function(list, predicate)
+    if predicate == nil then
+        predicate = function(a, b)
+            return a < b
+        end
+    end
+
+    local tableFromList = this.List.toTable(list) 
+    table.sort(tableFromList, predicate)
+
+    return this.List.new(tableFromList)
 end
 
 return this
