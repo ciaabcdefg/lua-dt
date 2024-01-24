@@ -127,7 +127,9 @@ this.List.new = function(fromTable)
 
     list.concat = function(other, clean)
         if other.__index ~= this.List then return end
-        clean = clean or true
+        if clean == nil then
+            clean = true
+        end
 
         list.size = list.size + other.size
         
@@ -210,7 +212,9 @@ this.List.new = function(fromTable)
 
     list.splice = function(other, index, clean)
         local node = list.getNode(index)
-        clean = clean or true
+        if clean == nil then
+            clean = true
+        end
 
         if node == nil then
             if other.back then
