@@ -331,6 +331,14 @@ this.List.__len = function(list)
     return list.size
 end
 
+this.List.__concat = function(list1, list2)
+    local newList = this.List.new()
+    newList.concat(list1)
+    newList.concat(list2)
+    
+    return newList
+end
+
 this.List.__tostring = function(list)
     local current = list.front
     local str = "["
@@ -367,6 +375,14 @@ end
 
 this.List.__pairs = function(list)
     return this.List.iter(list), list, nil
+end
+
+this.List.__call = function(list, index, indexEnd)
+    if indexEnd == nil then
+        return list.get(index)
+    else
+        return list.getRange(index, indexEnd)
+    end
 end
 
 return this
