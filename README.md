@@ -2,7 +2,7 @@
 A repository of basic data structures for **Lua 5.4**. 
 
 ## Current Implementations
-* Doubly Linked List [INCOMPLETE]
+* [Doubly Linked List](https://github.com/ciaabcdefg/lua-dt/wiki/Doubly-Linked-List)
 * (Possibly more to come.)
 
 ## Installation & Usage
@@ -36,7 +36,7 @@ print(myList)
 ```
 [5, New Element]
 ```
-A documentation regarding the implementations is currently in progress.
+A documentation regarding the implementations is [available here](https://github.com/ciaabcdefg/lua-dt/wiki).
 
 ## License
 This repository is licensed under the MIT License. Full detail is in the `LICENSE` file. Attribution, while not necessary, is always appreciated.
