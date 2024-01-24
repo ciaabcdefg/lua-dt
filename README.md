@@ -2,7 +2,7 @@
 A repository of basic data structures for **Lua 5.4**. 
 
 ## Current Implementations
-* Doubly Linked List
+* [Doubly Linked List](https://github.com/ciaabcdefg/lua-dt/wiki/Doubly-Linked-List)
 * (Possibly more to come.)
 
 ## Installation & Usage
