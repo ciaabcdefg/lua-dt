@@ -228,13 +228,10 @@ this.List.new = function(fromTable)
             end
         end
         
-        local current = list.front
-        for i = 1, list.size do
-            if not current then break end
+        for _, current in pairs(list) do
             if predicate(current.value) then
                 current.value = replaceWith
             end
-            current = current.next
         end
     end
 
@@ -353,6 +350,23 @@ this.List.__tostring = function(list)
     str = str .. "]"
 
     return str
+end
+
+this.List.iter = function(list)
+    local i = 0
+    local current = list.front
+    return function()
+        i = i + 1
+        if i <= list.size and current then
+            local node = current
+            current = current.next
+            return i, node
+        end
+    end
+end
+
+this.List.__pairs = function(list)
+    return this.List.iter(list), list, nil
 end
 
 return this
