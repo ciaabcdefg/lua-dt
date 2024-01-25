@@ -5,6 +5,7 @@ A repository of basic data structures for **Lua 5.4**.
 * [Doubly Linked List](https://github.com/ciaabcdefg/lua-dt/wiki/Doubly-Linked-List)
 * Dynamic Array (ArrayList)
 * Stack
+* Queue
 * Disjoint Set Union (Union-Find)
 * (Possibly more to come.)
 
