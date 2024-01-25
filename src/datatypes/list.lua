@@ -24,8 +24,8 @@ do
     end
 end
 
--- Doubly Linked List
-do 
+-- Node
+do
     this.Node.new = function(value)
         local node = {}
         node.value = value
@@ -39,7 +39,10 @@ do
     this.Node.__tostring = function(node)
         return "Node: value = " .. (tostring(node.value) or "")
     end
-    
+end
+
+-- Doubly Linked List
+do 
     local function find(list, value)
         for i, current in pairs(list) do
             if current.value == value then
@@ -73,7 +76,65 @@ do
     
         return t
     end
+
+    this.List.pushBack = function(list, value)
+        local node = this.Node.new(value)
     
+        if not list.front then
+            list.front = node
+        end
+        
+        if list.back then
+            list.back.next = node
+        end
+
+        node.previous = list.back
+        list.size = list.size + 1
+        list.back = node
+    end
+    
+    this.List.popFront = function(list)
+        if list.empty() then return end
+        local value = list.front.value
+
+        list.size = list.size - 1
+
+        if list.front then
+            if list.front.next then
+                list.front.next.previous = nil
+                list.front = list.front.next
+            else
+                list.front = nil
+            end
+        end
+        
+        return value
+    end
+
+    this.List.clear = function(list, deep)
+        if deep == nil then
+            deep = true
+        end
+
+        if deep then
+            local current = list.front
+            local next = nil
+
+            while current do
+                next = current.next
+
+                current.next = nil
+                current.previous = nil
+                
+                current = next
+            end    
+        end
+
+        list.front = nil
+        list.back = nil
+        list.size = 0   
+    end
+
     this.List.new = function(fromTable)
         local list = {}
         list.front = nil
@@ -86,43 +147,11 @@ do
         end
 
         list.clear = function(deep)
-            if deep == nil then
-                deep = true
-            end
-    
-            if deep then
-                local current = list.front
-                local next = nil
-    
-                while current do
-                    next = current.next
-    
-                    current.next = nil
-                    current.previous = nil
-                    
-                    current = next
-                end    
-            end
-    
-            list.front = nil
-            list.back = nil
-            list.size = 0   
+            this.List.clear(list, deep)
         end
     
         list.pushBack = function(value)
-            local node = this.Node.new(value)
-    
-            if not list.front then
-                list.front = node
-            end
-            
-            if list.back then
-                list.back.next = node
-            end
-    
-            node.previous = list.back
-            list.size = list.size + 1
-            list.back = node
+            this.List.pushBack(list, value)
         end
     
         list.popBack = function()
@@ -159,25 +188,9 @@ do
             list.size = list.size + 1
             list.front = node
         end
-    
         
         list.popFront = function()
-            if list.empty() then return end
-            
-            local value = list.front.value
-    
-            list.size = list.size - 1
-    
-            if list.front then
-                if list.front.next then
-                    list.front.next.previous = nil
-                    list.front = list.front.next
-                else
-                    list.front = nil
-                end
-            end
-            
-            return value
+            return this.List.popFront(list)
         end
     
         list.concat = function(other, clean)
