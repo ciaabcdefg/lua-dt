@@ -330,9 +330,9 @@ end
 
 this.List.__tostring = function(list)
     local str = "["
+    local terminator = ", "
 
     for i, current in pairs(list) do
-        local terminator = ", "
         if i >= list.size then
             terminator = ""
         end
