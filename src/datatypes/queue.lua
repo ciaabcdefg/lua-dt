@@ -1,4 +1,4 @@
--- Queue (doubly linked list wrapper)
+-- Queue (list-based)
 
 local this = {}
 local List = require("src.datatypes.list")

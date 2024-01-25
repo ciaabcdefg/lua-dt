@@ -1,4 +1,4 @@
--- Stack
+-- Stack (array-based)
 
 local this = {}
 

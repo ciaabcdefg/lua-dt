@@ -22,6 +22,23 @@ do
 
         return predicate
     end
+
+    this.indexNormalized = function(size, index, boundsCheck)
+        if boundsCheck == nil then
+            boundsCheck = true
+        end
+
+        if (index > size or index < -size) and boundsCheck then return nil end
+
+        if index < 0 then
+            index = size + (index + 1)
+        end
+
+        if index > size then
+            return size
+        end
+        return index
+    end
 end
 
 -- Node
@@ -440,6 +457,26 @@ do
             return value
         end
 
+        list.get = function(index)
+            index = this.indexNormalized(list.size, index, true)
+            return list.array[index]
+        end
+
+        list.getRange = function(indexStart, indexEnd)
+            if indexStart == nil then return nil end
+            indexEnd = indexEnd or indexStart
+
+            indexStart = this.indexNormalized(list.size, indexStart, false)
+            indexEnd = this.indexNormalized(list.size, indexEnd, false)
+
+            local values = this.ArrayList.new()
+            for i = indexStart, indexEnd do
+                values.pushBack(list(i))
+            end
+
+            return values
+        end
+
         list.find = function(predicate)
             predicate = this.getPredicate(predicate)
             if predicate == nil then return nil end
@@ -487,6 +524,22 @@ do
         return list
     end
 
+    this.ArrayList.range = function(lower, upperInclusive, step)
+        local list = this.ArrayList.new()
+        if step == nil then
+            if lower > upperInclusive then
+                step = -1
+            else
+                step = 1
+            end
+        end
+
+        for i = lower, upperInclusive, step do
+            list.pushBack(i)
+        end
+        return list
+    end
+
     this.ArrayList.__tostring = function(list)
         local str = "["
         local terminator = ", "
@@ -504,6 +557,13 @@ do
 
     this.ArrayList.__pairs = function(list)
         return this.ArrayList.iter(list), list, nil
+    end
+
+    this.ArrayList.__call = function(list, index, indexEnd)
+        if indexEnd == nil then
+            return list.get(index)
+        end
+        return list.getRange(index, indexEnd)
     end
 
     this.ArrayList.indexedIter = function(list, i)
