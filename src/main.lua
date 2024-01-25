@@ -1,14 +1,15 @@
 local list = require("src.datatypes.list")
 local dsu = require("src.datatypes.dsu")
 local stack = require("src.datatypes.stack")
+local queue = require("src.datatypes.queue")
 
-local array = list.ArrayList.new({1, 2, 3, 4, 5, 3, 3, 3})
-local l = list.List.new({1, 2, 3, 4, 5})
 
-print(array)
+local q = queue.Queue.new(6)
+q.push(5)
+q.push(2)
+q.push(10)
 
-print(array.findAll(3))
+print(q)
+q.clear()
 
-array.clear()
-
-print(array)
+print(q)

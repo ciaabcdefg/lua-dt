@@ -81,6 +81,10 @@ do
         list.size = 0
         setmetatable(list, this.List)
     
+        list.empty = function()
+            return list.size == 0
+        end
+
         list.clear = function(deep)
             if deep == nil then
                 deep = true
@@ -122,7 +126,7 @@ do
         end
     
         list.popBack = function()
-            if list.size == 0 then return end
+            if list.empty() then return end
             
             local value = list.back.value
     
@@ -158,7 +162,7 @@ do
     
         
         list.popFront = function()
-            if list.size == 0 then return end
+            if list.empty() then return end
             
             local value = list.front.value
     

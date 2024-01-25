@@ -19,7 +19,7 @@ this.Stack.new = function()
     end
 
     stack.pop = function()
-        if stack.size < 1 then return nil end
+        if stack.empty() then return nil end
 
         local top = stack.top
 
@@ -37,7 +37,7 @@ this.Stack.new = function()
     end
 
     stack.empty = function()
-        return stack.size == 0
+        return stack.size < 1
     end
 
     return stack
