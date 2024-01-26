@@ -11,9 +11,18 @@ A repository of basic data structures for **Lua 5.4**.
 
 ## Installation & Usage
 ### Installation
-Move `src\datatypes` to your working directory. To include a `.lua` library file containing the data structure, use the `require` keyword. For example, to import the **doubly linked list `datatypes/list.lua`** library to your current code, include:
+Move `src/datatypes` to your working directory (where your `init.lua` or `main.lua` is located), and in your main `.lua` file, add these two lines at the top. 
 ```lua
-local list = require("datatypes.list")
+package.path = "datatypes/?.lua;" .. package.path -- include if you want to use the data structures
+package.path = "utils/?.lua;" .. package.path  -- include if you want to use the utils lib
+```
+This is extremely important, as it tells Lua where to look for the required files. There are some data types that are dependent of other data types. For instance, the queue library `(queue.lua)` requires the list library `list.lua` to function. Normally, we will have to require the dependency using the full path, but with the inclusion of the code snippet, we can easily retrieve the libraries without specifying the full path.
+
+To include a `.lua` library file containing the data structure, use the `require` keyword. For example, to import the **doubly linked list `datatypes/list.lua`** library to your current code, include:
+```lua
+local list = require("list") -- only works if you added the code above
+-- or
+local list = require("datatypes.list") -- only works for some data types that are independent
 ``` 
 at the top of the file.
 
@@ -22,14 +31,14 @@ at the top of the file.
 To initialize a **doubly linked list**, we access the library (declared as the global variable `list`) and call the initializer `List.new()` as shown in the code block below:
 
 ```lua
-local list = require("datatypes.list")
+local list = require("list")
 local myList = list.List.new()
 ``` 
 Now we have a doubly linked list named `myList`. Tables returned by initializers have attributes and methods that you can access and invoke as if they were OOP objects. For example, we can push a new element `value` at the back of the list using `pushBack(value)`. Additionally, you can use `print` on the list to display its contents.
 
 #### Code
 ```lua
-local list = require("datatypes.list")
+local list = require("list")
 local myList = list.List.new()
 
 myList.pushBack(5)
