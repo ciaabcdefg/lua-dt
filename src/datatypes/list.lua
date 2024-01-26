@@ -104,79 +104,6 @@ do
         end
     end
     
-    this.List.range = function(lower, upperInclusive, step)
-        return this.range(this.List.new(), lower, upperInclusive, step)
-    end
-
-    this.List.toTable = function(list)
-        local t = {}
-    
-        for _, current in pairs(list) do
-            table.insert(t, current.value)
-            current = current.next
-        end
-    
-        return t
-    end
-
-    this.List.pushBack = function(list, value)
-        local node = this.Node.new(value)
-    
-        if not list.front then
-            list.front = node
-        end
-        
-        if list.back then
-            list.back.next = node
-        end
-
-        node.previous = list.back
-        list.size = list.size + 1
-        list.back = node
-    end
-    
-    this.List.popFront = function(list)
-        if list.empty() then return end
-        local value = list.front.value
-
-        list.size = list.size - 1
-
-        if list.front then
-            if list.front.next then
-                list.front.next.previous = nil
-                list.front = list.front.next
-            else
-                list.front = nil
-            end
-        end
-        
-        return value
-    end
-
-    this.List.clear = function(list, deep)
-        if deep == nil then
-            deep = true
-        end
-
-        if deep then
-            local current = list.front
-            local next = nil
-
-            while current do
-                next = current.next
-
-                current.next = nil
-                current.previous = nil
-                
-                current = next
-            end    
-        end
-
-        list.front = nil
-        list.back = nil
-        list.size = 0   
-    end
-
     this.List.new = function(fromTable)
         local list = {}
         list.front = nil
@@ -277,6 +204,16 @@ do
         list.getNode = function(index)
             local _, node = get(list, index)
             return node
+        end
+
+        list.swap = function(index1, index2)
+            local node1 = list.getNode(index1)
+            local node2 = list.getNode(index2)
+            if node1 == nil or node2 == nil then return end
+
+            local temp = node1.value
+            node1.value = node2.value
+            node2.value = temp
         end
     
         list.getRange = function(indexStart, indexEnd)
@@ -388,6 +325,79 @@ do
         end
     
         return list
+    end
+
+    this.List.range = function(lower, upperInclusive, step)
+        return this.range(this.List.new(), lower, upperInclusive, step)
+    end
+
+    this.List.toTable = function(list)
+        local t = {}
+    
+        for _, current in pairs(list) do
+            table.insert(t, current.value)
+            current = current.next
+        end
+    
+        return t
+    end
+
+    this.List.pushBack = function(list, value)
+        local node = this.Node.new(value)
+    
+        if not list.front then
+            list.front = node
+        end
+        
+        if list.back then
+            list.back.next = node
+        end
+
+        node.previous = list.back
+        list.size = list.size + 1
+        list.back = node
+    end
+    
+    this.List.popFront = function(list)
+        if list.empty() then return end
+        local value = list.front.value
+
+        list.size = list.size - 1
+
+        if list.front then
+            if list.front.next then
+                list.front.next.previous = nil
+                list.front = list.front.next
+            else
+                list.front = nil
+            end
+        end
+        
+        return value
+    end
+
+    this.List.clear = function(list, deep)
+        if deep == nil then
+            deep = true
+        end
+
+        if deep then
+            local current = list.front
+            local next = nil
+
+            while current do
+                next = current.next
+
+                current.next = nil
+                current.previous = nil
+                
+                current = next
+            end    
+        end
+
+        list.front = nil
+        list.back = nil
+        list.size = 0   
     end
 
     this.List.__len = function(list)
@@ -539,6 +549,12 @@ do
             end
 
             return values
+        end
+
+        list.swap = function(index1, index2)
+            local temp = list[index1]
+            list[index1] = list[index2]
+            list[index2] = temp
         end
 
         list.set = function(index, value)
