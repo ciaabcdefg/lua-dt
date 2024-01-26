@@ -24,7 +24,6 @@ local list = require("list") -- only works if you added the code above
 -- or
 local list = require("datatypes.list") -- only works for some data types that are independent
 ``` 
-at the top of the file.
 
 ### Example Usage
 (Continued from **Installation**) \
