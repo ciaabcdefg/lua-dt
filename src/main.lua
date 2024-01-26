@@ -1,9 +1,30 @@
+package.path = "datatypes/?.lua;" .. package.path -- include if you want to use the data types
+package.path = "utils/?.lua;" .. package.path  -- include if you want to use the utils lib
+
 do
-    local module = require("datatypes.list")
+    local module = require("list")
     List = module.List
     ArrayList = module.ArrayList
 end
-local benchmark = require("utils.benchmark")
+
+do
+    local module = require("dsu")
+    DSU = module.DSU
+end
+
+do
+    local module = require("queue")
+    Queue = module.Queue
+end
+
+local benchmark = require("benchmark")
+local dsu = DSU.new()
+local q = Queue.new()
+
+dsu.newSet(1)
+dsu.newSet(2)
+
+print(dsu)
 
 local function testGet()
     local count = 10000

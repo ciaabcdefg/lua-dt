@@ -1,7 +1,7 @@
 -- Queue (list-based)
 
 local this = {}
-local List = require("datatypes.list")
+local List =  require("list")
 
 this.Queue = {}
 

@@ -1,7 +1,7 @@
 -- Disjoint Set Union (Union-Find)
 
 local this = {}
-local Stack = require("datatypes.stack")
+local Stack = require("stack")
 
 this.DSU = {}
 
