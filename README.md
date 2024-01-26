@@ -1,5 +1,6 @@
 # lua-dt
 A repository of basic data structures for **Lua 5.4**. 
+**Important:** I am still figuring out how to do relative require paths in Lua. I think I'm going to lose my mind.
 
 ## Current Implementations
 * [Doubly Linked List](https://github.com/ciaabcdefg/lua-dt/wiki/Doubly-Linked-List)
