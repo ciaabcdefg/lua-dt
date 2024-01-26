@@ -1,10 +1,26 @@
-local list = require("src.datatypes.list")
-local dsu = require("src.datatypes.dsu")
-local stack = require("src.datatypes.stack")
-local queue = require("src.datatypes.queue")
+do
+    local module = require("src.datatypes.list")
+    List = module.List
+    ArrayList = module.ArrayList
+end
+local benchmark = require("src.utils.benchmark")
 
-local s = stack.Stack.new()
-s.push(5)
-s.push(2)
-s.push(10)
-print(s.pop())
+local function testGet()
+    local count = 10000
+    local iters = 10000
+    
+    print("Generating ArrayList...")
+    local arr = ArrayList.range(1, count)
+    print("Generating List...")
+    local list = List.range(1, count)
+    
+    print("Test Commenced")
+    benchmark.timer(iters, function()
+        arr.get(arr.size * 0.5)
+    end)
+    benchmark.timer(iters, function()
+        list.get(arr.size * 0.5)
+    end)
+end
+
+testGet()

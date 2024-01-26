@@ -38,6 +38,21 @@ do
         end
         return index
     end
+
+    this.range = function(list, lower, upperInclusive, step)
+        if step == nil then
+            if lower > upperInclusive then
+                step = -1
+            else
+                step = 1
+            end
+        end
+
+        for i = lower, upperInclusive, step do
+            list.pushBack(i)
+        end
+        return list
+    end
 end
 
 -- Node
@@ -74,14 +89,25 @@ do
         if index < 0 then
             index = list.size + (index + 1)
         end
-    
-        for i, current in pairs(list) do
+
+        local iter
+        if index > list.size * 0.5 then
+            iter = this.List.iter(list, true)
+        else
+            iter = this.List.iter(list, false)
+        end
+
+        for i, current in iter do
             if i == index then
                 return current.value, current
             end
         end
     end
     
+    this.List.range = function(lower, upperInclusive, step)
+        return this.range(this.List.new(), lower, upperInclusive, step)
+    end
+
     this.List.toTable = function(list)
         local t = {}
     
@@ -393,15 +419,39 @@ do
         return str
     end
     
-    this.List.iter = function(list)
+    this.List.iter = function(list, reversed)
         local i = 0
-        local current = list.front
+        local current
+
+        if reversed == nil then
+            reversed = false
+        end
+
+        if reversed then
+            current = list.back
+        else
+            current = list.front
+        end
+        
         return function()
             i = i + 1
             if i <= list.size and current then
                 local node = current
-                current = current.next
-                return i, node
+
+                if reversed then
+                    current = current.previous
+                else
+                    current = current.next
+                end
+
+                local index
+                if reversed then
+                    index = list.size - i + 1
+                else
+                    index = i
+                end
+
+                return index, node
             end
         end
     end
@@ -546,21 +596,9 @@ do
     end
 
     this.ArrayList.range = function(lower, upperInclusive, step)
-        local list = this.ArrayList.new()
-        if step == nil then
-            if lower > upperInclusive then
-                step = -1
-            else
-                step = 1
-            end
-        end
-
-        for i = lower, upperInclusive, step do
-            list.pushBack(i)
-        end
-        return list
+        return this.range(this.ArrayList.new(), lower, upperInclusive, step)
     end
-
+    
     this.ArrayList.__tostring = function(list)
         local str = "["
         local terminator = ", "
@@ -589,14 +627,14 @@ do
 
     this.ArrayList.__index = function(list, index)
         if type(index) == "number" then
-            return list.array[index]
+            return list.get(index)
         end
         return rawget(list, index)
     end
 
     this.ArrayList.__newindex = function(list, index, value)
         if type(index) == "number" then
-            list.array[index] = value
+            list.set(index, value)
             return
         end
         rawset(list, index, value)
