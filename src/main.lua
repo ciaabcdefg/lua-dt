@@ -1,9 +1,9 @@
 do
-    local module = require("src.datatypes.list")
+    local module = require("datatypes.list")
     List = module.List
     ArrayList = module.ArrayList
 end
-local benchmark = require("src.utils.benchmark")
+local benchmark = require("utils.benchmark")
 
 local function testGet()
     local count = 10000
@@ -26,7 +26,26 @@ local function testGet()
     end)
 end
 
-local list = List.range(1, 10)
-print(list)
-list.swap(2, 5)
-print(list)
+local function testLen()
+    local count = 100000000
+    local iters = 1
+    
+    print("Generating ArrayList...")
+    local arr = ArrayList.range(1, count)
+    print("Generating Table...")
+    local t = {}
+    for i = 1, count do
+        table.insert(t, i)
+    end
+
+    print("Test Commenced\n")
+    print("ArrayList.size")
+    benchmark.timer(iters, function()
+        local sz = arr.size
+    end)
+    print()
+    print("#table")
+    benchmark.timer(iters, function()
+        local sz = #t
+    end)
+end

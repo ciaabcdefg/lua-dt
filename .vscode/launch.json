@@ -1,0 +1,19 @@
+{
+    "version": "0.0.0",
+    "configurations": [
+        {
+            "name": "luadt",
+            "type": "lua-local",
+            "request": "launch",
+            "stopOnEntry": true,
+            "cwd": "${workspaceFolder}",
+            "program": {
+                "lua": "lua",
+                "file": "${workspaceFolder}/main.lua"
+             },
+             "env": {
+                 "LUA_PATH": "./?.lua"
+             },
+        }
+    ]
+}
