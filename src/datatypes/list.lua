@@ -1,13 +1,12 @@
 local this = {}
 
 this.List = {}
-this.List.__index = this.List
+-- this.List.__index = this.List
 
 this.Node = {}
 this.Node.__index = this.Node
 
 this.ArrayList = {}
-this.ArrayList.__index = this.ArrayList
 
 -- Global Methods
 do
@@ -364,7 +363,7 @@ do
     
         return list
     end
-    
+
     this.List.__len = function(list)
         return list.size
     end
@@ -418,6 +417,21 @@ do
         return list.getRange(index, indexEnd)
     end
     
+    this.List.__index = function(list, index)
+        if type(index) == "number" then
+            return list.get(index)
+        end
+        return rawget(list, index)
+    end
+
+    this.List.__newindex = function(list, index, value)
+        if type(index) == "number" then
+            list.set(index, value)
+            return
+        end
+        rawset(list, index, value)
+    end
+
     this.List.sort = function(list, predicate)
         if predicate == nil then
             predicate = function(a, b)
@@ -475,6 +489,13 @@ do
             end
 
             return values
+        end
+
+        list.set = function(index, value)
+            index = this.indexNormalized(list.size, index, true)
+            if index == nil then return end
+
+            list.array[index] = value
         end
 
         list.find = function(predicate)
@@ -564,6 +585,21 @@ do
             return list.get(index)
         end
         return list.getRange(index, indexEnd)
+    end
+
+    this.ArrayList.__index = function(list, index)
+        if type(index) == "number" then
+            return list.array[index]
+        end
+        return rawget(list, index)
+    end
+
+    this.ArrayList.__newindex = function(list, index, value)
+        if type(index) == "number" then
+            list.array[index] = value
+            return
+        end
+        rawset(list, index, value)
     end
 
     this.ArrayList.indexedIter = function(list, i)

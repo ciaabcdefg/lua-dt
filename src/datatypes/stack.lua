@@ -3,7 +3,6 @@
 local this = {}
 
 this.Stack = {}
-this.Stack.__index = this.Stack
 
 this.Stack.new = function()
     local stack = {}

@@ -4,7 +4,6 @@ local this = {}
 local Stack = require("src.datatypes.stack")
 
 this.DSU = {}
-this.DSU.__index = this.DSU
 
 this.DSU.new = function()
     local dsu = {}
