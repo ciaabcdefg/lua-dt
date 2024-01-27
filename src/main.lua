@@ -2,23 +2,21 @@ package.path = "datatypes/?.lua;" .. package.path -- include if you want to use 
 package.path = "utils/?.lua;" .. package.path  -- include if you want to use the utils lib
 
 do
-    local module = require("list")
-    List = module.List
-    ArrayList = module.ArrayList
-end
+    local list = require("list")
+    List = list.List
+    ArrayList = list.ArrayList
 
-do
-    local module = require("dsu")
-    DSU = module.DSU
-end
+    local dsu = require("dsu")
+    DSU = dsu.DSU
 
-do
-    local module = require("queue")
-    Queue = module.Queue
+    local queue = require("queue")
+    Queue = queue.Queue
+
+    local tree = require("tree")
+    Tree = tree.Tree
 end
 
 local benchmark = require("benchmark")
-
 
 local function testGet()
     local count = 10000
@@ -65,7 +63,13 @@ local function testLen()
     end)
 end
 
-local list = List.new({1, 2, 3, 4, 5, 6, 7, 8, 9})
-print(list.findAll(function(value)
-    return (value % 2) == 0 
-end))
+local tree = Tree.new()
+tree.insert(9)
+tree.insert(7, 9)
+    tree.insert(5, 7)
+    tree.insert(1, 7)
+tree.insert(3, 9)
+    tree.insert(2, 3)
+    tree.insert(4, 3)
+    
+Tree.dfs(tree, 2)

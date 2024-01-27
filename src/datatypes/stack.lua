@@ -12,6 +12,8 @@ this.Stack.new = function()
     setmetatable(stack, this.Stack)
 
     stack.push = function(value)
+        if value == nil then return end
+
         stack.size = stack.size + 1
         stack.table[stack.size] = value
         stack.top = value

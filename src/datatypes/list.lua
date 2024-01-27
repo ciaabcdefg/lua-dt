@@ -169,6 +169,7 @@ do
         end
     
         list.pushFront = function(value)
+            if value == nil then return end
             local node = this.Node.new(value)
     
             if not list.back then
@@ -377,6 +378,7 @@ do
     end
 
     this.List.pushBack = function(list, value)
+        if value == nil then return end
         local node = this.Node.new(value)
     
         if not list.front then
@@ -553,6 +555,8 @@ do
         setmetatable(list, this.ArrayList)
     
         list.pushBack = function(value)
+            if value == nil then return end
+            
             list.size = list.size + 1
             list.array[list.size] = value
         end

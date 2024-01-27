@@ -1,7 +1,7 @@
 -- Queue (doubly linked list wrapper)
 
 local this = {}
-local List = require("datatypes.list")
+local List = require("list")
 
 this.Queue = {}
 this.Queue.__index = this.Queue
