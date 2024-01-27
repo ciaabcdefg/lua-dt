@@ -18,13 +18,7 @@ do
 end
 
 local benchmark = require("benchmark")
-local dsu = DSU.new()
-local q = Queue.new()
 
-dsu.newSet(1)
-dsu.newSet(2)
-
-print(dsu)
 
 local function testGet()
     local count = 10000
@@ -70,3 +64,8 @@ local function testLen()
         local sz = #t
     end)
 end
+
+local list = List.new({1, 2, 3, 4, 5, 6, 7, 8, 9})
+print(list.findAll(function(value)
+    return (value % 2) == 0 
+end))

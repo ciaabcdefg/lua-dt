@@ -74,9 +74,12 @@ end
 
 -- Doubly Linked List
 do 
-    local function find(list, value)
+    local function find(list, predicate)
+        predicate = this.getPredicate(predicate)
+        if predicate == nil then return end
+
         for i, current in pairs(list) do
-            if current.value == value then
+            if predicate(current.value) then
                 return i, current
             end
         end
@@ -84,6 +87,29 @@ do
         return nil, nil
     end
     
+    local function findAll(list, predicate, getValue)
+        predicate = this.getPredicate(predicate)
+        if predicate == nil then return nil end
+
+        if getValue == nil then
+            getValue = true
+        end
+
+        local collector = this.List.new()
+
+        for _, node in pairs(list) do
+            if predicate(node.value) then
+                if getValue then
+                    collector.pushBack(node.value)
+                else
+                    collector.pushBack(node)
+                end                
+            end
+        end
+
+        return collector
+    end        
+
     local function get(list, index)
         if (index > list.size or index < -list.size) then return nil, nil end
         if index < 0 then
@@ -186,16 +212,24 @@ do
             end        
         end
     
-        list.find = function(value)
-            local index = find(list, value)
+        list.find = function(predicate)
+            local index = find(list, predicate)
             return index
         end
     
-        list.findNode = function(value)
-            local _, node = find(list, value)
+        list.findAll = function(predicate)
+            return findAll(list, predicate, true)
+        end
+
+        list.findNode = function(predicate)
+            local _, node = find(list, predicate)
             return node
         end
     
+        list.findNodeAll = function(predicate)
+            return findAll(list, predicate, false)
+        end
+
         list.get = function(index)
             local value = get(list, index)
             return value
