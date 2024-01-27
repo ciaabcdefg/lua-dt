@@ -7,6 +7,7 @@ A repository of basic data structures for **Lua 5.4**.
 * Stack
 * Queue
 * Disjoint Set Union (Union-Find)
+* Generic Tree
 * (Possibly more to come.)
 
 ## Installation & Usage
