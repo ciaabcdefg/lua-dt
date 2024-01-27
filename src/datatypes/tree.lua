@@ -90,10 +90,22 @@ do
             return nil
         end
 
+        tree.show = function(indentSpace)
+            Tree.show(tree, indentSpace)
+        end
+
+        tree.showBFS = function()
+            Tree.showBFS(tree)
+        end
+
+        tree.showDFS = function()
+            Tree.showDFS(tree)
+        end
+
         return tree
     end
 
-    Tree.bfs = function(tree)
+    Tree.showBFS = function(tree)
         local queue = Queue.new()
         local levels = {}
 
@@ -121,7 +133,11 @@ do
         end
     end        
 
-    Tree.dfs = function(tree, indentSpace)
+    Tree.showDFS = function(tree)
+        print(tree)
+    end
+
+    Tree.show = function(tree, indentSpace)
         local stack = Stack.new()
         local indent = {}
         if indentSpace == nil then
@@ -174,7 +190,6 @@ do
         end
 
         str = string.sub(str, 1, str.len(str) - 2)
-
         return str
     end
 end
